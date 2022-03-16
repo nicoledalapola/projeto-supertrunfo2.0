@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Trunfo Star Wars 2.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="container">
+            <img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-super-trunfo.png" class="page-logo" alt="">
+            <h1 class="page-title">Super Trunfo Star Wars</h1>
+            <button onclick="sortearCarta()" id="btnSortear">Sortear carta</button>
+            <form id="form">
+            <h2>Escolha o seu atributo</h2>
+            <div class="wrapper">
+                <div>
+                <div id="carta-jogador">
+                    <img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">
+                    <h3> </h3>
+                </div>
+                </div>
+                <div>
+                <div id="carta-maquina" class="carta"><img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;"></div>
+                </div>
+            </div>
+            <button class="button-jogar" type="button" id="btnJogar" onclick="jogar()" disabled="false">Jogar</button>
+            <div id="resultado"></div>
+            </form>
+        </div>
+    <script>
+        var carta1 = {
+            nome: "Darth Vader",
+            imagem: "https://sm.ign.com/ign_br/screenshot/default/darth-vader_5yvm.jpg",
+            atributos: {
+                ataque: 10,
+                defesa: 9,
+                inteligencia: 6
+            }
+        };
+
+        var carta2 = {
+            nome: "Luke Skywalker",
+            imagem: "https://s2.glbimg.com/LttsvVoQZGHoIJsmdlXMULY336A=/e.glbimg.com/og/ed/f/original/2019/09/23/ea1e16061bdf92edb111d8808c6741a6.jpg",
+            atributos: {
+                ataque: 9,
+                defesa: 8,
+                inteligencia: 10
+            }
+        };
+
+        var carta3 = {
+            nome: "Yoda",
+            imagem: "https://media.contentapi.ea.com/content/dam/star-wars-battlefront-2/images/2019/08/swbf2-refresh-hero-large-heroes-page-yoda-16x9-xl.jpg.adapt.crop1x1.320w.jpg",
+            atributos: {
+                ataque: 10,
+                defesa: 10,
+                inteligencia: 10
+            }
+        };
+
+        var carta4 = {
+            nome: "Princesa Leia",
+            imagem: "https://www.jornaldamidia.com.br/wp-content/uploads/2016/12/starwone.jpg",
+            atributos: {
+                ataque: 6,
+                defesa: 8,
+                inteligencia: 7
+        }
+        };
+
+        var carta5 = {
+            nome: "Han Solo",
+            imagem: "https://i.pinimg.com/originals/8c/33/a0/8c33a01cc38d862977f75ee22d9cbd2c.jpg",
+            atributos: {
+                ataque: 9,
+                defesa: 10,
+                inteligencia: 6
+            }
+        };
+
+        var carta6 = {
+            nome: "Obi-Wan Kenobi",
+            imagem: "https://epipoca.com.br/wp-content/uploads/2021/09/obi-wan-kenobi-113027.jpg",
+            atributos: {
+                ataque: 10,
+                defesa: 10,
+                inteligencia: 10
+            }
+        };
+
+        var carta7 = {
+            nome: "Palpatine",
+            imagem: "https://media.contentapi.ea.com/content/dam/star-wars-battlefront-2/images/2019/08/swbf2-refresh-hero-large-heroes-page-emperor-palpatine-16x9-xl.jpg.adapt.crop1x1.320w.jpg",
+            atributos: {
+                ataque: 8,
+                defesa: 10,
+                inteligencia: 7
+            }
+        };
+
+        var cartas = [carta1, carta2, carta3, carta4, carta5, carta6, carta7];
+        var cartaMaquina;
+        var cartaJogador;
+
+        function sortearCarta() {
+        var numeroCartaMaquina = parseInt(Math.random() * 7);
+        cartaMaquina = cartas[numeroCartaMaquina];
+
+        var numeroCartaJogador = parseInt(Math.random() * 7);
+        while (numeroCartaMaquina == numeroCartaJogador) {
+            numeroCartaJogador = parseInt(Math.random() * 7);
+        }
+        cartaJogador = cartas[numeroCartaJogador];
+        console.log(cartaJogador);
+
+        document.getElementById("btnSortear").disabled = true;
+        document.getElementById("btnJogar").disabled = false;
+        exibirCartaJogador();
+        }
+
+        function obtemAtributoSelecionado() {
+        var radioAtributos = document.getElementsByName("atributo");
+
+        for (var i = 0; i < radioAtributos.length; i++) {
+            if (radioAtributos[i].checked == true) {
+            return radioAtributos[i].value;
+            }
+        }
+        }
+
+        function jogar() {
+        var atributoSelecionado = obtemAtributoSelecionado();
+        var divResultado = document.getElementById("resultado");
+        if (
+            cartaJogador.atributos[atributoSelecionado] >
+            cartaMaquina.atributos[atributoSelecionado]
+        ) {
+            htmlResultado = "<p class='resultado-final'>Venceu</p>";
+        } else if (
+            cartaJogador.atributos[atributoSelecionado] <
+            cartaMaquina.atributos[atributoSelecionado]
+        ) {
+            htmlResultado = "<p class='resultado-final'>Perdeu</p>";
+        } else {
+            htmlResultado = "<p class='resultado-final'>Empatou</p>";
+        }
+        divResultado.innerHTML = htmlResultado;
+
+        document.getElementById("btnJogar").disabled = true;
+        exibirCartaMaquina();
+        }
+
+        function exibirCartaJogador() {
+        var divCartaJogador = document.getElementById("carta-jogador");
+        divCartaJogador.style.backgroundImage = `url(${cartaJogador.imagem})`;
+        // divCartaJogador.style.backgroundImage = "url(" + cartaJogador.imagem +")"
+        var moldura =
+            '<img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">;';
+        var tagHTML = "<div id='opcoes' class='carta-status'>";
+
+        var opcoesTexto = "";
+        for (var atributo in cartaJogador.atributos) {
+            opcoesTexto +=
+            "<input type='radio' name='atributo' value='" +
+            atributo +
+            "'>" +
+            atributo +
+            " " +
+            cartaJogador.atributos[atributo] +
+            "<br>";
+        }
+
+        var nome = `<p class="carta-subtitle">${cartaJogador.nome}</p>`;
+
+        divCartaJogador.innerHTML = moldura + nome + tagHTML + opcoesTexto + "</div>";
+        }
+
+        function exibirCartaMaquina() {
+        var divCartaMaquina = document.getElementById("carta-maquina");
+        divCartaMaquina.style.backgroundImage = `url(${cartaMaquina.imagem})`;
+        // divCartaJogador.style.backgroundImage = "url(" + cartaJogador.imagem +")"
+        var moldura =
+            '<img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">;';
+        var tagHTML = "<div id='opcoes' class='carta-status'>";
+
+        var opcoesTexto = "";
+        for (var atributo in cartaMaquina.atributos) {
+            opcoesTexto +=
+            "<p type='text' name='atributo' value='" +
+            atributo +
+            "'>" +
+            atributo +
+            " " +
+            cartaMaquina.atributos[atributo] +
+            "</p>";
+        }
+
+        var nome = `<p class="carta-subtitle">${cartaMaquina.nome}</p>`;
+
+        divCartaMaquina.innerHTML = moldura + nome + tagHTML + opcoesTexto + "</div>";
+        }
+    </script>
+</body>
+</html>
